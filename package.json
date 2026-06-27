@@ -1,0 +1,23 @@
+{
+  "name": "daraz_website_automation_using_playwright",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "An Test Automation Project of an E-Commerce based website using Playwright, JavaScript, Page Object Model (POM) Pattern, CI/CD Using GitHub Actions, Allure Report, HTML Report, Data Driven Testing using JSON file and many more",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shifat124/Daraz_Website_Automation_Using_Playwright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shifat124/Daraz_Website_Automation_Using_Playwright/issues"
+  },
+  "homepage": "https://github.com/shifat124/Daraz_Website_Automation_Using_Playwright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.1"
+  }
+}
