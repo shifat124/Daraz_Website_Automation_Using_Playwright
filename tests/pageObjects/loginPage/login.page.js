@@ -1,6 +1,5 @@
 import TestConfig from '../../../testConfig';
 import HomePage from '../../../tests/pageObjects/homePage/home.page';
-
 class LoginPage {
     constructor(page) {
         this.page = page;
@@ -8,21 +7,18 @@ class LoginPage {
         this.userPasswordField = page.getByRole('textbox', { name: 'Please enter your password' });
         this.loginButton = page.locator('div.iweb-button-mask');
     }
-
     async verifyLogin(username, password) {
         const testConfigPageObject = new TestConfig();
         await this.page.goto(testConfigPageObject.baseUrl);
-        await this.page.waitForTimeout(3000);
-        const homePageObject = new HomePage();
+        const homePageObject = new HomePage(this.page);
         await homePageObject.loginLink.click();
-        await this.page.waitForTimeout(3000);
         await this.userNameField.fill(username);
-        await this.page.waitForTimeout(3000);
         await this.userPasswordField.fill(password);
-        await this.page.waitForTimeout(3000);
-        await this.loginButton.click(); 
-            
-
+        await this.loginButton.click();
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        const profile = await homePageObject.accountName.textContent();
+        console.log('profile', profile);
+        return profile;
     }
 }
 export default LoginPage;
