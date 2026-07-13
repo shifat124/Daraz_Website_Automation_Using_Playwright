@@ -4,8 +4,8 @@ import LoginData from '../../../tests/data/loginData/login.data.json' assert { t
 test.describe('Login Functionality', () => {
     test('TC_LF_001 - Validate login to the application using valid credentials', async ({ page }) => {
         const loginPageObject = new LoginPage(page);
-        const actual = await loginPageObject.verifyLogin(LoginData.user_name, LoginData.user_password);
+        const actual = await loginPageObject.verifyLogin(LoginData.valid_user_name, LoginData.valid_user_password);
         console.log('actual', actual);
-        expect(actual).toBe(LoginData.profile_name);
+        expect(actual).toBe(LoginData.valid_profile_name);
     });
 });
