@@ -2,5 +2,7 @@
     "valid_email": "shifatlaskor779@gmail.com",
     "valid_password": "Daraz1!2@",
     "valid_profile_name": "shifat's account",
-    "valid_contact": "01897915408"
+    "valid_contact": "01897915408",
+    "invalid_email": "abcd@gmail.com",
+    "invalid_password": "12345"
 }
