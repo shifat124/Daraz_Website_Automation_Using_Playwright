@@ -26,4 +26,16 @@ test.describe('Login Functionality', () => {
         console.log('actual', actual);
         expect(actual).toBeTruthy();
     });
+    test('TC_LF_005 - Validate login to the application using invalid credentials (invalid email address and invalid password)) ', async ({ page }) => {
+        const loginPageObject = new LoginPage(page);
+        const actual = await loginPageObject.verifyInvalidLogin(LoginData.invalid_email, LoginData.invalid_password);
+        console.log('actual', actual);
+        expect(actual).toBeTruthy();
+    });
+    test.only('TC_LF_006 - Validate login to the application without providing any credentials) ', async ({ page }) => {
+        const loginPageObject = new LoginPage(page);
+        const actual = await loginPageObject.verifyInvalidLogin(LoginData.empty_email, LoginData.empty_password);
+        console.log('actual', actual);
+        expect(actual).toBeTruthy();
+    });
 });
