@@ -6,5 +6,6 @@
     "invalid_email": "abcd@gmail.com",
     "invalid_password": "12345",
     "empty_email": "",
-    "empty_password": ""
+    "empty_password": "",
+    "forget_password_text": "Forgot your password?"
 }
