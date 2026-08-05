@@ -38,10 +38,16 @@ test.describe('Login Functionality', () => {
         console.log('actual', actual);
         expect(actual).toBeTruthy();
     });
-    test.only('TC_LF_007 - Validate "Forgotten Password" link is available in the login page and working properly)', async ({ page }) => {
+    test('TC_LF_007 - Validate "Forgotten Password" link is available in the login page and working properly)', async ({ page }) => {
         const loginPageObject = new LoginPage(page);
         const actual = await loginPageObject.verifyForgetPasswordLink();
         console.log('actual', actual);
         expect(actual).toBeTruthy();
+    });
+    test.only('TC_LF_008 - Validate that the user is not logged out when using the browser\'s Back and Forward navigation)', async ({ page }) => {
+        const loginPageObject = new LoginPage(page);
+        const actual = await loginPageObject.verifyUserLoginSession(LoginData.valid_email, LoginData.valid_password);
+        console.log('actual', actual);
+        expect(actual).toBe(LoginData.valid_profile_name);
     });
 });
