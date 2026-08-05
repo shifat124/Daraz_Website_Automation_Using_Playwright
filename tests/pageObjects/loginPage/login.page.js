@@ -12,14 +12,18 @@ class LoginPage {
         this.forgetPasswordLink = page.locator('div').filter({ hasText: 'Forgot password?' }).last();
         this.forgetPasswordPageHeader = page.locator('p').filter({ hasText: 'Forgot your password?' }).last();
     }
-    async verifyValidLogin(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
+    async login(username, password) {
         const homePageObject = new HomePage(this.page);
         await homePageObject.loginLink.click();
         await this.userNameField.fill(username);
         await this.userPasswordField.fill(password);
         await this.loginButton.click();
+    }
+    async verifyValidLogin(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        await this.login(username, password);
+        const homePageObject = new HomePage(this.page);
         await homePageObject.accountName.waitFor({ state: 'visible' });
         const profile = await homePageObject.accountName.textContent();
         console.log('profile', profile);
@@ -28,15 +32,12 @@ class LoginPage {
     async verifyInvalidLogin(username, password) {
         const testConfigPageObject = new TestConfig();
         await this.page.goto(testConfigPageObject.baseUrl);
-        const homePageObject = new HomePage(this.page);
-        await homePageObject.loginLink.click();
-        await this.userNameField.fill(username);
-        await this.userPasswordField.fill(password);
-        await this.loginButton.click();
         // const invalidLoginMessageVisible = await this.invalidLoginMessage.isVisible();
         // console.log('invalidLoginMessageVisible', invalidLoginMessageVisible);
         // return invalidLoginMessageVisible;
+        await this.login(username, password);
         await this.crossIcon.click();
+        const homePageObject = new HomePage(this.page);
         const loginLink = await homePageObject.loginLink.isVisible();
         console.log('loginLink', loginLink);
         return loginLink;
@@ -57,6 +58,19 @@ class LoginPage {
         else {
             return false;
         }
+    }
+    async verifyUserLoginSession(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        await this.login(username, password);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        await this.page.goBack({ waitUntil: 'load' });
+        await this.page.goForward({ waitUntil: 'load' });
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        const profile = await homePageObject.accountName.textContent();
+        console.log('profile', profile);
+        return profile;
     }
 }
 export default LoginPage;
