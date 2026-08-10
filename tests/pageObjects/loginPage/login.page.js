@@ -11,6 +11,7 @@ class LoginPage {
         this.crossIcon = page.locator("//div[contains(@class,'iweb-dialog-container-enter')]//div[contains(@class,'lzd-member-loginsign-popup-close-button')]//div//*[name()='svg']//*[name()='path' and contains(@d,'M28 8 8 28')]");
         this.forgetPasswordLink = page.locator('div').filter({ hasText: 'Forgot password?' }).last();
         this.forgetPasswordPageHeader = page.locator('p').filter({ hasText: 'Forgot your password?' }).last();
+        this.unsuccessfullLoginHeaderImage = page.locator('.baxia-dialog-mask');
     }
     async login(username, password) {
         const homePageObject = new HomePage(this.page);
@@ -67,6 +68,34 @@ class LoginPage {
         await homePageObject.accountName.waitFor({ state: 'visible' });
         await this.page.goBack({ waitUntil: 'load' });
         await this.page.goForward({ waitUntil: 'load' });
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        const profile = await homePageObject.accountName.textContent();
+        console.log('profile', profile);
+        return profile;
+    }
+    async verifyunsuccessfullLoginAttempts(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.loginLink.click();
+        await this.userNameField.fill(username);
+        await this.userPasswordField.fill(password);
+        for (let i = 0; i < 5; i++) {
+            await this.loginButton.click();
+            await this.page.waitForTimeout(2000);
+        }
+        const unsuccessfullLoginHeaderImageVisible = await this.unsuccessfullLoginHeaderImage.isVisible();
+        console.log('unsuccessfullLoginHeaderImageVisible', unsuccessfullLoginHeaderImageVisible);
+        return unsuccessfullLoginHeaderImageVisible;
+    }
+    async verifyLoginSessionTimeout(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        await this.login(username, password);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        await this.page.waitForTimeout(120000);
+        await this.page.reload({ waitUntil: 'load' });
         await homePageObject.accountName.waitFor({ state: 'visible' });
         const profile = await homePageObject.accountName.textContent();
         console.log('profile', profile);
