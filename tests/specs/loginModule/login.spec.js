@@ -44,9 +44,23 @@ test.describe('Login Functionality', () => {
         console.log('actual', actual);
         expect(actual).toBeTruthy();
     });
-    test.only('TC_LF_008 - Validate that the user is not logged out when using the browser\'s Back and Forward navigation)', async ({ page }) => {
+    test('TC_LF_008 - Validate that the user is not logged out when using the browser\'s Back and Forward navigation)', async ({ page }) => {
         const loginPageObject = new LoginPage(page);
         const actual = await loginPageObject.verifyUserLoginSession(LoginData.valid_email, LoginData.valid_password);
+        console.log('actual', actual);
+        expect(actual).toBe(LoginData.valid_profile_name);
+    });
+    test.only('TC_LF_009 - Validate the number of unsuccessful login attempts', async ({ page }) => {
+        test.setTimeout(150000);
+        const loginPageObject = new LoginPage(page);
+        const actual = await loginPageObject.verifyunsuccessfullLoginAttempts(LoginData.invalid_email, LoginData.invalid_password);
+        console.log('actual', actual);
+        expect(actual).toBeTruthy();
+    });
+    test('TC_LF_010 - Validate timeout of the Login Session', async ({ page }) => {
+        test.setTimeout(150000);
+        const loginPageObject = new LoginPage(page);
+        const actual = await loginPageObject.verifyLoginSessionTimeout(LoginData.valid_email, LoginData.valid_password);
         console.log('actual', actual);
         expect(actual).toBe(LoginData.valid_profile_name);
     });
