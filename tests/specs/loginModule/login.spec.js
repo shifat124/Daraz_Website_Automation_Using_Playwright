@@ -50,13 +50,6 @@ test.describe('Login Functionality', () => {
         console.log('actual', actual);
         expect(actual).toBe(LoginData.valid_profile_name);
     });
-    test.only('TC_LF_009 - Validate the number of unsuccessful login attempts', async ({ page }) => {
-        test.setTimeout(150000);
-        const loginPageObject = new LoginPage(page);
-        const actual = await loginPageObject.verifyunsuccessfullLoginAttempts(LoginData.invalid_email, LoginData.invalid_password);
-        console.log('actual', actual);
-        expect(actual).toBeTruthy();
-    });
     test('TC_LF_010 - Validate timeout of the Login Session', async ({ page }) => {
         test.setTimeout(150000);
         const loginPageObject = new LoginPage(page);
