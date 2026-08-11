@@ -73,21 +73,6 @@ class LoginPage {
         console.log('profile', profile);
         return profile;
     }
-    async verifyunsuccessfullLoginAttempts(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
-        const homePageObject = new HomePage(this.page);
-        await homePageObject.loginLink.click();
-        await this.userNameField.fill(username);
-        await this.userPasswordField.fill(password);
-        for (let i = 0; i < 5; i++) {
-            await this.loginButton.click();
-            await this.page.waitForTimeout(2000);
-        }
-        const unsuccessfullLoginHeaderImageVisible = await this.unsuccessfullLoginHeaderImage.isVisible();
-        console.log('unsuccessfullLoginHeaderImageVisible', unsuccessfullLoginHeaderImageVisible);
-        return unsuccessfullLoginHeaderImageVisible;
-    }
     async verifyLoginSessionTimeout(username, password) {
         const testConfigPageObject = new TestConfig();
         await this.page.goto(testConfigPageObject.baseUrl);
