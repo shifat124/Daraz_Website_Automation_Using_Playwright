@@ -12,12 +12,13 @@ class LogoutPage {
         const loginPageObject = new LoginPage(this.page);
         await loginPageObject.login(username, password);
         const homePageObject = new HomePage(this.page);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
         await homePageObject.accountName.click();
         await this.logoutButton.click();
         await homePageObject.loginLink.waitFor({ state: 'visible' });
-        const logoutLink = await homePageObject.loginLink.isVisible();
-        console.log("logoutLink", logoutLink);
-        return logoutLink;
+        const loginLink = await homePageObject.loginLink.isVisible();
+        console.log("loginLink", loginLink);
+        return loginLink;
     }
     async verifyAutomaticLogout(username, password, browser) {
         const context1 = await browser.newContext();
@@ -42,6 +43,46 @@ class LogoutPage {
             console.log("loginLinkVisible", loginLinkVisible);
             return loginLinkVisible;
         }
+    }
+    async verifyBackNavigationAfterLogout(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        const loginPageObject = new LoginPage(this.page);
+        await loginPageObject.login(username, password);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        await homePageObject.accountName.click();
+        await this.logoutButton.click();
+        await homePageObject.loginLink.waitFor({ state: 'visible' });
+        await this.page.goBack();
+        const loginLink = await homePageObject.loginLink.isVisible();
+        console.log("User remains logged out after clicking browser back button", loginLink);
+        return loginLink;
+    }
+    async verifyLogoutWithoutLogin() {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.loginLink.click();
+        const logoutButton = await this.logoutButton.isVisible();
+        console.log("Logout option is not displayed before logging in", logoutButton);
+        return logoutButton;
+    }
+    async verifyQuickLogin(username, password) {
+        const testConfigPageObject = new TestConfig();
+        await this.page.goto(testConfigPageObject.baseUrl);
+        const loginPageObject = new LoginPage(this.page);
+        await loginPageObject.login(username, password);
+        const homePageObject = new HomePage(this.page);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        await homePageObject.accountName.click();
+        await this.logoutButton.click();
+        await homePageObject.loginLink.waitFor({ state: 'visible' });
+        await loginPageObject.login(username, password);
+        await homePageObject.accountName.waitFor({ state: 'visible' });
+        const profile = await homePageObject.accountName.textContent();
+        console.log('profile', profile);
+        return profile;
     }
 }
 export default LogoutPage;
