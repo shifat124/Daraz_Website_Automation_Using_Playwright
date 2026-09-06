@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../../../tests/pageObjects/loginPage/login.page';
+import HomePage from '../../../tests/pageObjects/homePage/home.page';
 import LoginData from '../../../tests/data/loginData/login.data.json' assert { type: 'json' };
 test.describe('Login Functionality', () => {
+    test.beforeEach(async ({ page }) => {
+        const homePageObject = new HomePage(page);
+        await homePageObject.hitUrl();
+    });
     test('TC_LF_001 - Validate login to the application using valid contact & password', async ({ page }) => {
         const loginPageObject = new LoginPage(page);
         const actual = await loginPageObject.verifyValidLogin(LoginData.valid_contact, LoginData.valid_password);

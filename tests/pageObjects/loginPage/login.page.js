@@ -21,8 +21,6 @@ class LoginPage {
         await this.loginButton.click();
     }
     async verifyValidLogin(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         await this.login(username, password);
         const homePageObject = new HomePage(this.page);
         await homePageObject.accountName.waitFor({ state: 'visible' });
@@ -31,8 +29,6 @@ class LoginPage {
         return profile;
     }
     async verifyInvalidLogin(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         // const invalidLoginMessageVisible = await this.invalidLoginMessage.isVisible();
         // console.log('invalidLoginMessageVisible', invalidLoginMessageVisible);
         // return invalidLoginMessageVisible;
@@ -44,8 +40,6 @@ class LoginPage {
         return loginLink;
     }
     async verifyForgetPasswordLink() {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         const homePageObject = new HomePage(this.page);
         await homePageObject.loginLink.click();
         const forgetPasswordLinkVisible = await this.forgetPasswordLink.isVisible();
@@ -61,8 +55,6 @@ class LoginPage {
         }
     }
     async verifyUserLoginSession(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         await this.login(username, password);
         const homePageObject = new HomePage(this.page);
         await homePageObject.accountName.waitFor({ state: 'visible' });
@@ -74,8 +66,6 @@ class LoginPage {
         return profile;
     }
     async verifyLoginSessionTimeout(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         await this.login(username, password);
         const homePageObject = new HomePage(this.page);
         await homePageObject.accountName.waitFor({ state: 'visible' });

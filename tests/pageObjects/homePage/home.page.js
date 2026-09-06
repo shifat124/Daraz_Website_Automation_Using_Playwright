@@ -6,9 +6,11 @@ class HomePage {
         this.loginLink = page.getByRole('link', { name: 'Login' });
         this.accountName = page.locator('#myAccountTrigger');
     }
-    async navigateToHomePage() {
+    async hitUrl() {
         const testConfigPageObject = new TestConfig();
         await this.page.goto(testConfigPageObject.baseUrl);
+    }
+    async navigateToHomePage() {
         const isDarazLogoVisible = await this.darazLogo.isVisible();
         console.log('isDarazLogoVisible', isDarazLogoVisible);
         return isDarazLogoVisible;
