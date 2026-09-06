@@ -1,14 +1,12 @@
-import LoginPage from "../../../tests/pageObjects/loginPage/login.page";
-import HomePage from "../../../tests/pageObjects/homePage/home.page";
-import TestConfig from "../../../testConfig";
+import LoginPage from '../../../tests/pageObjects/loginPage/login.page';
+import HomePage from '../../../tests/pageObjects/homePage/home.page';
+import TestConfig from '../../../testConfig';
 class LogoutPage {
     constructor(page) {
         this.page = page;
         this.logoutButton = page.getByRole('link', { name: 'Logout' });
     }
     async verifyLogout(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         const loginPageObject = new LoginPage(this.page);
         await loginPageObject.login(username, password);
         const homePageObject = new HomePage(this.page);
@@ -45,8 +43,6 @@ class LogoutPage {
         }
     }
     async verifyBackNavigationAfterLogout(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         const loginPageObject = new LoginPage(this.page);
         await loginPageObject.login(username, password);
         const homePageObject = new HomePage(this.page);
@@ -60,8 +56,6 @@ class LogoutPage {
         return loginLink;
     }
     async verifyLogoutWithoutLogin() {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         const homePageObject = new HomePage(this.page);
         await homePageObject.loginLink.click();
         const logoutButton = await this.logoutButton.isVisible();
@@ -69,8 +63,6 @@ class LogoutPage {
         return logoutButton;
     }
     async verifyQuickLogin(username, password) {
-        const testConfigPageObject = new TestConfig();
-        await this.page.goto(testConfigPageObject.baseUrl);
         const loginPageObject = new LoginPage(this.page);
         await loginPageObject.login(username, password);
         const homePageObject = new HomePage(this.page);
